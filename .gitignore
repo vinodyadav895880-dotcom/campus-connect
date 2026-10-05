@@ -1,0 +1,17 @@
+# Maven
+target/
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+
+# Local configuration
+.env
+*.local
