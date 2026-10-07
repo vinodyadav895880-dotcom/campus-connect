@@ -14,7 +14,10 @@ import com.campusconnect.dao.RecruiterApplicationDAO;
 import com.campusconnect.dao.RecruiterJobDAO;
 import com.campusconnect.model.Application;
 
-@WebServlet("/recruiter/applications")
+@WebServlet({
+        "/recruiter/applications",
+        "/recruiter/update-application"
+})
 public class RecruiterApplicationsServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
@@ -39,9 +42,7 @@ public class RecruiterApplicationsServlet extends HttpServlet {
         HttpSession session =
                 request.getSession(false);
 
-        /*
-         * Login check
-         */
+        // Login check
         if (session == null
                 || session.getAttribute("userId") == null) {
 
@@ -53,10 +54,7 @@ public class RecruiterApplicationsServlet extends HttpServlet {
             return;
         }
 
-
-        /*
-         * Recruiter role check
-         */
+        // Recruiter role check
         String userRole =
                 (String) session.getAttribute("userRole");
 
@@ -70,19 +68,14 @@ public class RecruiterApplicationsServlet extends HttpServlet {
             return;
         }
 
-
         try {
 
             int userId =
                     (Integer) session.getAttribute("userId");
 
-
-            /*
-             * Find recruiter company
-             */
+            // Find recruiter company
             int companyId =
                     jobDAO.getCompanyIdByUserId(userId);
-
 
             if (companyId == -1) {
 
@@ -98,27 +91,21 @@ public class RecruiterApplicationsServlet extends HttpServlet {
                 return;
             }
 
-
-            /*
-             * Get applications
-             */
+            // Get applications
             List<Application> applications =
                     applicationDAO
                             .getApplicationsByCompanyId(
                                     companyId
                             );
 
-
             request.setAttribute(
                     "applications",
                     applications
             );
 
-
             request.getRequestDispatcher(
                     "/recruiter/applications.jsp"
             ).forward(request, response);
-
 
         } catch (Exception e) {
 
@@ -149,10 +136,7 @@ public class RecruiterApplicationsServlet extends HttpServlet {
         HttpSession session =
                 request.getSession(false);
 
-
-        /*
-         * Login check
-         */
+        // Login check
         if (session == null
                 || session.getAttribute("userId") == null) {
 
@@ -164,10 +148,7 @@ public class RecruiterApplicationsServlet extends HttpServlet {
             return;
         }
 
-
-        /*
-         * Recruiter role check
-         */
+        // Recruiter role check
         String userRole =
                 (String) session.getAttribute("userRole");
 
@@ -181,7 +162,6 @@ public class RecruiterApplicationsServlet extends HttpServlet {
             return;
         }
 
-
         try {
 
             String applicationIdParameter =
@@ -189,7 +169,6 @@ public class RecruiterApplicationsServlet extends HttpServlet {
 
             String status =
                     request.getParameter("status");
-
 
             if (applicationIdParameter == null
                     || applicationIdParameter.trim().isEmpty()
@@ -209,12 +188,10 @@ public class RecruiterApplicationsServlet extends HttpServlet {
                 return;
             }
 
-
             int applicationId =
                     Integer.parseInt(
                             applicationIdParameter
                     );
-
 
             boolean success =
                     applicationDAO
@@ -222,7 +199,6 @@ public class RecruiterApplicationsServlet extends HttpServlet {
                                     applicationId,
                                     status
                             );
-
 
             if (success) {
 
@@ -239,12 +215,10 @@ public class RecruiterApplicationsServlet extends HttpServlet {
                 );
             }
 
-
             response.sendRedirect(
                     request.getContextPath()
                             + "/recruiter/applications"
             );
-
 
         } catch (Exception e) {
 

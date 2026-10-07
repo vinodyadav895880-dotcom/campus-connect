@@ -1,6 +1,10 @@
 package com.campusconnect.controller;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.campusconnect.dao.ApplicationDAO;
+import com.campusconnect.util.DBConnection;
 
 @WebServlet("/student/apply")
 public class ApplyJobServlet extends HttpServlet {
@@ -38,9 +43,11 @@ public class ApplyJobServlet extends HttpServlet {
 
         try {
 
-            // Get logged-in student ID
-            int studentId =
-                    (Integer) session.getAttribute("userId");
+            // Get logged-in user's user_id
+            int userId = (Integer) session.getAttribute("userId");
+
+            // Convert user_id -> actual student_id
+            int studentId = getStudentIdByUserId(userId);
 
             // Get job ID from URL
             String jobIdParameter =
@@ -59,12 +66,10 @@ public class ApplyJobServlet extends HttpServlet {
             int jobId =
                     Integer.parseInt(jobIdParameter);
 
-
             // Check duplicate application
-
             if (applicationDAO.hasApplied(studentId, jobId)) {
 
-                request.getSession().setAttribute(
+                session.setAttribute(
                         "applicationMessage",
                         "You have already applied for this job."
                 );
@@ -76,41 +81,36 @@ public class ApplyJobServlet extends HttpServlet {
                 return;
             }
 
-
-            // Save application
-
+            // Save application using actual student_id
             boolean success =
                     applicationDAO.applyForJob(
                             studentId,
                             jobId
                     );
 
-
             if (success) {
 
-                request.getSession().setAttribute(
+                session.setAttribute(
                         "applicationMessage",
                         "Application submitted successfully!"
                 );
 
             } else {
 
-                request.getSession().setAttribute(
+                session.setAttribute(
                         "applicationMessage",
                         "Unable to submit application. Please try again."
                 );
             }
 
-
             // Redirect back to jobs page
-
             response.sendRedirect(
                     request.getContextPath() + "/student/jobs"
             );
 
         } catch (NumberFormatException e) {
 
-            request.getSession().setAttribute(
+            session.setAttribute(
                     "applicationMessage",
                     "Invalid job ID."
             );
@@ -123,7 +123,7 @@ public class ApplyJobServlet extends HttpServlet {
 
             e.printStackTrace();
 
-            request.getSession().setAttribute(
+            session.setAttribute(
                     "applicationMessage",
                     "Something went wrong while applying."
             );
@@ -131,6 +131,34 @@ public class ApplyJobServlet extends HttpServlet {
             response.sendRedirect(
                     request.getContextPath() + "/student/jobs"
             );
+        }
+    }
+
+    /**
+     * Find actual student_id using logged-in user's user_id.
+     */
+    private int getStudentIdByUserId(int userId) throws SQLException {
+
+        String sql =
+                "SELECT student_id FROM students WHERE user_id = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+             PreparedStatement statement =
+                     connection.prepareStatement(sql)) {
+
+            statement.setInt(1, userId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                if (resultSet.next()) {
+
+                    return resultSet.getInt("student_id");
+                }
+
+                throw new SQLException(
+                        "Student profile not found for user_id: " + userId
+                );
+            }
         }
     }
 }
