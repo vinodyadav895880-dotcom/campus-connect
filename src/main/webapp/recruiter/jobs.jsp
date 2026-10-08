@@ -171,9 +171,26 @@
 
             <div class="card-body">
 
+                <!-- Job Posting Guidance -->
+
+                <div class="alert alert-info" role="alert">
+
+                    <h6 class="alert-heading">
+                        Job Posting Guidelines
+                    </h6>
+
+                    <p class="mb-0">
+                        Provide complete job details and select an
+                        application deadline that is today or a future date.
+                    </p>
+
+                </div>
+
+
                 <form
                     action="<%= request.getContextPath() %>/recruiter/jobs"
-                    method="post">
+                    method="post"
+                    id="jobForm">
 
 
                     <!-- Job Title -->
@@ -345,6 +362,10 @@
                             class="form-control"
                             required>
 
+                        <div class="form-text">
+                            Past dates cannot be selected.
+                        </div>
+
                     </div>
 
 
@@ -509,8 +530,48 @@
     </div>
 
 
+    <!-- Bootstrap JS -->
+
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- Job Deadline Validation -->
+
+    <script>
+
+        const applicationDeadline =
+            document.getElementById("applicationDeadline");
+
+        const jobForm =
+            document.getElementById("jobForm");
+
+
+        // Set today's date as the minimum deadline
+        const today =
+            new Date().toISOString().split("T")[0];
+
+        applicationDeadline.min = today;
+
+
+        // Prevent submitting a past deadline
+        jobForm.addEventListener(
+            "submit",
+            function (event) {
+
+                if (applicationDeadline.value < today) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Application deadline cannot be in the past."
+                    );
+                }
+
+            }
+        );
+
     </script>
 
 </body>
