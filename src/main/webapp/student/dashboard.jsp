@@ -324,6 +324,22 @@
 
     </div>
 
+
+    <!-- ================= PLACEMENT TIP ================= -->
+
+    <div class="alert alert-info shadow-sm mt-4" role="alert">
+
+        <h6 class="alert-heading">
+            Placement Tip
+        </h6>
+
+        <p class="mb-0">
+            Keep your profile and academic details updated
+            before applying for placement opportunities.
+        </p>
+
+    </div>
+
 </div>
 
 
