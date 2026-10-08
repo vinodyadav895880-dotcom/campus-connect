@@ -126,6 +126,7 @@
                     <form
                         action="<%= request.getContextPath() %>/recruiter/schedule-interview"
                         method="post"
+                        id="scheduleInterviewForm"
                     >
 
                         <input
@@ -150,6 +151,10 @@
                                 class="form-control"
                                 required
                             >
+
+                            <div class="form-text">
+                                Select today or a future date.
+                            </div>
 
                         </div>
 
@@ -269,6 +274,13 @@
 
                         </div>
 
+                        <div
+                            id="validationMessage"
+                            class="alert alert-warning d-none"
+                            role="alert"
+                        >
+                        </div>
+
                         <div class="d-flex gap-2">
 
                             <button
@@ -298,6 +310,134 @@
     </div>
 
 </div>
+
+<script>
+
+    const interviewDate =
+        document.getElementById("interviewDate");
+
+    const interviewMode =
+        document.getElementById("interviewMode");
+
+    const meetingLink =
+        document.getElementById("meetingLink");
+
+    const venue =
+        document.getElementById("venue");
+
+    const form =
+        document.getElementById("scheduleInterviewForm");
+
+    const validationMessage =
+        document.getElementById("validationMessage");
+
+
+    // Prevent selecting a past interview date
+    const today =
+        new Date().toISOString().split("T")[0];
+
+    interviewDate.min = today;
+
+
+    function updateInterviewFields() {
+
+        const mode =
+            interviewMode.value;
+
+
+        if (mode === "ONLINE") {
+
+            meetingLink.disabled = false;
+            meetingLink.required = true;
+
+            venue.disabled = true;
+            venue.required = false;
+
+            venue.value = "";
+
+        } else if (mode === "OFFLINE") {
+
+            venue.disabled = false;
+            venue.required = true;
+
+            meetingLink.disabled = true;
+            meetingLink.required = false;
+
+            meetingLink.value = "";
+
+        } else {
+
+            meetingLink.disabled = true;
+            meetingLink.required = false;
+
+            venue.disabled = true;
+            venue.required = false;
+
+        }
+    }
+
+
+    interviewMode.addEventListener(
+        "change",
+        updateInterviewFields
+    );
+
+
+    form.addEventListener(
+        "submit",
+        function (event) {
+
+            validationMessage.classList.add("d-none");
+            validationMessage.textContent = "";
+
+
+            if (interviewDate.value < today) {
+
+                event.preventDefault();
+
+                validationMessage.textContent =
+                    "Please select today or a future interview date.";
+
+                validationMessage.classList.remove("d-none");
+
+                return;
+            }
+
+
+            if (interviewMode.value === "ONLINE"
+                    && meetingLink.value.trim() === "") {
+
+                event.preventDefault();
+
+                validationMessage.textContent =
+                    "Meeting link is required for an online interview.";
+
+                validationMessage.classList.remove("d-none");
+
+                return;
+            }
+
+
+            if (interviewMode.value === "OFFLINE"
+                    && venue.value.trim() === "") {
+
+                event.preventDefault();
+
+                validationMessage.textContent =
+                    "Venue is required for an offline interview.";
+
+                validationMessage.classList.remove("d-none");
+
+                return;
+            }
+
+        }
+    );
+
+
+    updateInterviewFields();
+
+</script>
 
 </body>
 
