@@ -1,244 +1,276 @@
-
-Loading older messages…
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Campus Connect — College Placement & Internship Management System
-A Java-based web application that brings college placement and internship activities into one place. Students can explore opportunities and track applications, recruiters can manage jobs and candidates, and administrators can monitor placement activity through a central dashboard.
-
-<p align="center"> <a href="https://campus-connect-production-8935.up.railway.app/campus-connect/login.jsp"><strong>🌐 Open Live Demo</strong></a> &nbsp; • &nbsp; <a href="https://github.com/vinodyadav895880-dotcom/campus-connect"><strong>💻 View Source Code</strong></a> </p> <p align="center"> <img alt="Java 21" src="https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white"> <img alt="JSP and Servlets" src="https://img.shields.io/badge/Web-JSP%20%7C%20Servlets-blue"> <img alt="MySQL" src="https://img.shields.io/badge/Database-MySQL-4479A1?logo=mysql&logoColor=white"> <img alt="Apache Tomcat 9" src="https://img.shields.io/badge/Server-Tomcat%209-F8DC75?logo=apachetomcat&logoColor=black"> <img alt="Maven" src="https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white"> <img alt="Docker" src="https://img.shields.io/badge/Deployment-Docker-2496ED?logo=docker&logoColor=white"> <img alt="Railway" src="https://img.shields.io/badge/Hosting-Railway-6B46C1?logo=railway&logoColor=white"> </p>
-Academic project | Academic year 2026–27
-Project type: Java web application
-Team leader: Vinod Yadav
-Guide: Er. Ram Babu Buri
-
-Table of Contents
-Overview
-Live Demo
-Problem Statement
-Features
-Technology Stack
-Architecture
-Application Workflow
-Database Design
-Security and Configuration
-Run Locally
-Deployment
-Project Structure
-Project Milestones
-Testing
-Documentation
-Team Contributions
-Limitations and Future Enhancements
-Overview
-Campus Connect is a centralized placement and internship management system designed for college students, recruiters, and placement administrators. It organizes core placement activities in one application instead of relying on separate forms, messages, and spreadsheets.
-
-The system has three role-based areas:
-
-Student: maintain profile details, browse placement and internship opportunities, submit applications, track application status, and view scheduled interviews and results.
-Recruiter: manage company and job details, review candidate applications, shortlist/reject/select candidates, and schedule interviews or update interview outcomes.
-Administrator: monitor students, recruiters, companies, jobs, applications, and placement-related reports from a centralized dashboard.
-Live Demo
-Live application: https://campus-connect-production-8935.up.railway.app/campus-connect/login.jsp
-Source repository: https://github.com/vinodyadav895880-dotcom/campus-connect
-Hosting platform: Railway
-Application runtime: Docker + Apache Tomcat 9
-Database: MySQL hosted on Railway
-The live deployment uses demonstration data for academic evaluation. Do not enter private, sensitive, or real student information into a public demo. Demo credentials are intentionally not published in this repository.
-
-Problem Statement
-Placement information and interview coordination can be scattered across spreadsheets, forms, emails, and separate communication channels. This makes it harder to track job opportunities, candidate application statuses, interview schedules, and overall placement activity.
-
-Proposed solution: Campus Connect combines the main placement workflow in one role-based, database-backed web application so students, recruiters, and administrators can access the information relevant to their roles.
-
-Features
-Student Module
-Student login and profile management
-Browse placement and internship opportunities
-Apply for a job and prevent duplicate applications
-Track application statuses: APPLIED, SHORTLISTED, REJECTED, and SELECTED
-View interview schedules and interview results
-Logout and session management
-Recruiter Module
-Recruiter login and company profile management
-Create and manage placement and internship job postings
-Review applications and student information
-Shortlist, reject, or select candidates
-Schedule interviews with date, time, mode, meeting link, or venue
-Update interview results
-Administrator Module
-Centralized dashboard and system statistics
-Monitor students, recruiters, companies, jobs, and applications
-Access placement and internship reports
-View application-status and job-type summaries
-Technology Stack
-Layer / Purpose	Technology	How it is used
-Backend and business logic	Java 21	Implements application rules and processing
-View layer	JSP, HTML5, CSS3, JavaScript	Renders pages and browser-side interactions
-Request handling	Java Servlets	Handles HTTP requests, validation, sessions, and navigation
-Database access	JDBC	Connects Java code to MySQL and executes SQL statements
-Relational database	MySQL	Stores users, profiles, companies, jobs, applications, and interviews
-UI components	Bootstrap 5	Supports a consistent, responsive interface
-Web runtime	Apache Tomcat 9	Runs the JSP/Servlet web application
-Build and packaging	Apache Maven	Manages dependencies and builds the WAR package
-Development IDE	Eclipse IDE	Used for Java web project development and local testing
-Version control	Git and GitHub	Tracks code changes and supports collaboration
-Container packaging	Docker	Packages the build and Tomcat runtime configuration
-Cloud hosting	Railway	Hosts the web application and MySQL service
-Architecture
-The application follows the Model–View–Controller (MVC) pattern. JSP pages provide the View, Servlets act as Controllers, and Java model/DAO classes handle application data and database operations. MySQL provides persistent storage.
-
-Supporting tools: Maven builds the deployable WAR file; Docker defines the build and runtime environment; Tomcat runs the application; Railway hosts the application and database services.
-
-Application Workflow
-Student workflow
-Login → Browse Jobs → Apply → Track Status → View Interview → View Result
-
-Recruiter workflow
-Login → Manage Company/Jobs → Review Applications → Update Candidate Status → Schedule Interview → Update Interview Result
-
-Administrator workflow
-Login → Dashboard → Monitor Users and Jobs → Review Application Statistics → View Reports
-
-Database Design
-The schema is stored in `database/campus_connect_schema.sql`.
-
-Table	Purpose
-users	Authentication details and user role
-students	Student profile and academic details
-companies	Recruiter/company information
-jobs	Placement and internship opportunities
-applications	Student-to-job applications and application status
-interviews	Interview schedules, mode, and results
-notifications	User-specific notification records
-Main relationships
-A user may have a student or company/recruiter profile; administrator access is represented by the user role.
-A company can post multiple jobs.
-A student can submit applications to multiple jobs.
-A job can receive applications from multiple students.
-An application can have an associated interview.
-Primary keys identify records, and foreign keys help maintain relationships between related tables.
-
-Security and Configuration
-The project includes the following security-related practices:
-
-BCrypt password hashing and verification
-Prepared statements for parameterized database queries
-Server-side input validation
-Session-based login state and logout/session invalidation
-Role-aware access to student, recruiter, and administrator areas
-Database connection configuration through environment variables instead of hard-coded credentials
-Production note: Before use with real college or student data, perform a security review, verify access controls for every protected route, configure backups and monitoring, and use appropriate privacy and data-retention practices. This academic demo should not be treated as a fully audited production service.
-
-Run Locally
-Prerequisites
-Install and configure:
-
-JDK 21
-MySQL
-Apache Maven
-Eclipse IDE for Enterprise Java and Web Developers (optional, for IDE-based development)
-Apache Tomcat 9 (for a manual local deployment)
-1. Clone the repository
+<div align="center">
+
+# 🎓 Campus Connect
+### College Placement & Internship Management System
+
+**One platform to organize campus placements—from job discovery to interview scheduling.**
+
+<p>
+  <a href="https://campus-connect-production-8935.up.railway.app/campus-connect/login.jsp"><strong>🌐 Open Live Demo</strong></a>
+  &nbsp; · &nbsp;
+  <a href="https://github.com/vinodyadav895880-dotcom/campus-connect"><strong>💻 View Source Code</strong></a>
+  &nbsp; · &nbsp;
+  <a href="docs/Campus_Connect_Final_Report.pdf"><strong>📄 Project Report</strong></a>
+</p>
+
+![Java 21](https://img.shields.io/badge/Java-21-orange?logo=openjdk&logoColor=white)
+![JSP and Servlets](https://img.shields.io/badge/Java_Web-JSP%20%7C%20Servlets-blue)
+![MySQL](https://img.shields.io/badge/Database-MySQL-4479A1?logo=mysql&logoColor=white)
+![Tomcat](https://img.shields.io/badge/Server-Apache%20Tomcat%209-F8DC75?logo=apachetomcat&logoColor=black)
+![Maven](https://img.shields.io/badge/Build-Maven-C71A36?logo=apachemaven&logoColor=white)
+![Docker](https://img.shields.io/badge/Container-Docker-2496ED?logo=docker&logoColor=white)
+![Railway](https://img.shields.io/badge/Hosting-Railway-7B2BF9?logo=railway&logoColor=white)
+
+**Academic Project · 2026–27**  
+Team Leader: **Vinod Yadav** · Guide: **Er. Ram Babu Buri**
+
+</div>
+
+---
+
+## 📌 Table of Contents
+
+- [Overview](#-overview)
+- [Problem and Solution](#-problem-and-solution)
+- [Features](#-features)
+- [Technology Stack](#-technology-stack)
+- [Architecture](#-architecture)
+- [Application Workflow](#-application-workflow)
+- [Database Design](#-database-design)
+- [Security and Configuration](#-security-and-configuration)
+- [Run Locally](#-run-locally)
+- [Deployment](#-deployment)
+- [Project Structure](#-project-structure)
+- [Testing Evidence](#-testing-evidence)
+- [Documentation](#-documentation)
+- [Team Contributions](#-team-contributions)
+- [Limitations and Future Enhancements](#-limitations-and-future-enhancements)
+- [Academic Details](#-academic-details)
+
+## 🚀 Overview
+
+**Campus Connect** is a Java-based web application for managing college placement and internship activities. It provides role-based areas for **Students, Recruiters, and Administrators**, helping bring job listings, applications, interview schedules, and placement monitoring into one place.
+
+The project is built with Java web technologies, uses MySQL for persistent data, and is deployed on Railway for an online demonstration.
+
+> **Live application:** [Open Campus Connect](https://campus-connect-production-8935.up.railway.app/campus-connect/login.jsp)  
+> **Repository:** [vinodyadav895880-dotcom/campus-connect](https://github.com/vinodyadav895880-dotcom/campus-connect)
+
+The live deployment uses demonstration data for academic evaluation. Do not enter private, sensitive, or real student information into the public demo. Demo credentials are not published in this repository.
+
+## 🎯 Problem and Solution
+
+Placement activity can be spread across spreadsheets, forms, emails, and separate messages. This can make opportunities, application statuses, interview schedules, and placement statistics harder to track.
+
+Campus Connect brings the core workflow into one database-backed application:
+
+- Students can explore opportunities and follow their applications.
+- Recruiters can manage jobs and review candidates.
+- Administrators can monitor placement activity and view summary information.
+
+## ✨ Features
+
+<table>
+  <tr>
+    <th>🎓 Student</th>
+    <th>🏢 Recruiter</th>
+    <th>🛡️ Administrator</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>Login and profile access</li>
+        <li>Browse jobs and internships</li>
+        <li>Apply for opportunities</li>
+        <li>Track application status</li>
+        <li>View interviews and results</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Manage company details</li>
+        <li>Create and manage job postings</li>
+        <li>Review student applications</li>
+        <li>Shortlist, reject, or select candidates</li>
+        <li>Schedule interviews and update outcomes</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>Centralized dashboard</li>
+        <li>Monitor students and recruiters</li>
+        <li>Monitor companies, jobs, and applications</li>
+        <li>View placement-related summaries and reports</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+## 🧰 Technology Stack
+
+| Layer / Tool | Technology | Purpose in this project |
+|---|---|---|
+| Programming language | Java 21 | Business logic and application processing |
+| View layer | JSP, HTML5, CSS3, JavaScript | Pages, forms, and browser interactions |
+| Request handling | Java Servlets | HTTP requests, validation, sessions, navigation |
+| Database access | JDBC | Execute SQL statements and connect Java to MySQL |
+| Database | MySQL | Store users, profiles, jobs, applications, and interviews |
+| UI framework | Bootstrap 5 | Responsive layout and reusable UI components |
+| Web runtime | Apache Tomcat 9 | Run the JSP/Servlet application |
+| Build tool | Apache Maven | Manage dependencies and build the WAR package |
+| Container | Docker | Define the build and runtime environment |
+| Cloud hosting | Railway | Host the application and MySQL service |
+| IDE and collaboration | Eclipse, Git, GitHub | Development, version history, and team collaboration |
+
+## 🏗️ Architecture
+
+Campus Connect follows the **Model–View–Controller (MVC)** pattern. JSP pages provide the View, Servlets act as Controllers, and Java model/DAO classes handle application data and database operations.
+
+```mermaid
+flowchart TD
+    U[User / Browser] -->|HTTP request| C[Java Servlet - Controller]
+    C --> V[JSP - View]
+    C --> D[DAO / Model - Java]
+    D --> J[JDBC]
+    J --> M[(MySQL Database)]
+    M --> J
+    J --> D
+    D --> C
+    C -->|Response / forward| V
+    V --> U
+```
+
+**Deployment components:** Maven builds the WAR package, Docker defines the build/runtime configuration, Tomcat runs the application, and Railway hosts the live application and database services.
+
+## 🔄 Application Workflow
+
+```mermaid
+flowchart LR
+    A[Student Login] --> B[Browse Jobs]
+    B --> C[Apply for Job]
+    C --> D[Recruiter Reviews Application]
+    D --> E[Shortlist / Reject / Select]
+    E --> F[Schedule Interview]
+    F --> G[Student Views Interview]
+    G --> H[Interview Outcome]
+```
+
+### Role-based workflows
+
+- **Student:** Login → Browse jobs → Apply → Track status → View interview and result.
+- **Recruiter:** Login → Manage company/jobs → Review applications → Update candidate status → Schedule interview → Update result.
+- **Administrator:** Login → Dashboard → Monitor users/jobs/applications → Review placement summaries.
+
+## 🗃️ Database Design
+
+The schema is available at [`database/campus_connect_schema.sql`](database/campus_connect_schema.sql).
+
+| Table | Purpose |
+|---|---|
+| `users` | Authentication details and user role |
+| `students` | Student profile and academic details |
+| `companies` | Recruiter/company information |
+| `jobs` | Placement and internship opportunities |
+| `applications` | Student-to-job applications and status |
+| `interviews` | Interview schedule, mode, and result |
+| `notifications` | User-specific notification records |
+
+### Main relationships
+
+```mermaid
+erDiagram
+    USERS ||--o| STUDENTS : has
+    USERS ||--o| COMPANIES : represents
+    USERS ||--o{ NOTIFICATIONS : receives
+    COMPANIES ||--o{ JOBS : posts
+    STUDENTS ||--o{ APPLICATIONS : submits
+    JOBS ||--o{ APPLICATIONS : receives
+    APPLICATIONS ||--o| INTERVIEWS : may_have
+```
+
+Primary keys identify records; foreign keys connect related records. Administrator access is represented by the user role.
+
+## 🔐 Security and Configuration
+
+Security-related practices implemented in the project include:
+
+- BCrypt password hashing and verification.
+- Parameterized SQL queries using `PreparedStatement`.
+- Server-side input validation.
+- Session-based login state and logout/session invalidation.
+- Role-aware access for Student, Recruiter, and Administrator areas.
+- Database configuration through environment variables rather than hard-coded credentials.
+
+**Production note:** Before using the application with real college or student data, conduct a security review, verify authorization on every protected route, configure backups and monitoring, and establish privacy and data-retention practices. This academic demo has not been presented as a formal security audit.
+
+## 💻 Run Locally
+
+### Prerequisites
+
+- JDK 21
+- MySQL
+- Apache Maven
+- Apache Tomcat 9 for manual deployment
+- Eclipse IDE for Enterprise Java and Web Developers (optional)
+- Git
+
+### 1. Clone the repository
+
+```bash
 git clone https://github.com/vinodyadav895880-dotcom/campus-connect.git
 cd campus-connect
-2. Create the database and tables
-The schema file creates the campus_connect database and its tables. Run it using a MySQL account with permission to create the database:
+```
 
+### 2. Create the database schema
+
+Run this from a terminal where the MySQL client is installed and the selected account has permission to create the database:
+
+```bash
 mysql -u root -p < database/campus_connect_schema.sql
-If your MySQL setup uses another administrative account, replace root with that account. The schema creates table definitions; it does not itself provide production credentials or guarantee that demo users/data are populated.
+```
 
-3. Configure database environment variables
-Set these variables in the environment used to run Tomcat/application:
+This command creates the database schema. It does not automatically guarantee demo users or sample data are present.
 
-CAMPUS_DB_URL=jdbc:mysql://localhost:3306/campus_connect?serverTimezone=UTC
-CAMPUS_DB_USER=your_mysql_username
-CAMPUS_DB_PASSWORD=your_mysql_password
-Replace the example username and password with your local MySQL credentials. Do not commit real credentials to GitHub. Create or seed application user records using the project’s supported registration/admin process before attempting to log in locally.
+### 3. Configure database environment variables
 
-4. Build the application
+Set these in the environment used to run Tomcat, replacing the example values with your local MySQL credentials:
+
+```bash
+export CAMPUS_DB_URL='jdbc:mysql://localhost:3306/campus_connect?serverTimezone=UTC'
+export CAMPUS_DB_USER='your_mysql_username'
+export CAMPUS_DB_PASSWORD='your_mysql_password'
+```
+
+Do not commit real credentials to GitHub. In Eclipse, configure the same variables in the Tomcat launch environment if you start the server from the IDE.
+
+### 4. Build the application
+
+```bash
 mvn clean package
-Maven should produce a WAR file in the target/ directory if the build completes successfully.
+```
 
-5. Run in Eclipse/Tomcat
-Import the repository into Eclipse as an Existing Maven Project.
-Ensure the project uses JDK 21 and Apache Tomcat 9.
-Configure the database environment variables for the Tomcat launch configuration.
-Run the project on the Tomcat server, or deploy the generated WAR to Tomcat.
-Open the application context in your browser. For a WAR named campus-connect.war, the context path is typically /campus-connect.
-For environment-specific setup and troubleshooting, see `docs/Project_Run_Guide.md`.
+If the build succeeds, Maven should create the WAR package under `target/`.
 
-Deployment
-The public application is deployed on Railway using a Dockerfile-based build.
+### 5. Run on Tomcat
 
-Dockerfile defines the Maven build stage and Tomcat runtime stage.
-docker-entrypoint.sh adjusts Tomcat’s HTTP connector to use the port provided by the hosting environment, then starts Tomcat.
-.dockerignore excludes build output, Git metadata, logs, and local environment files from the Docker build context.
-Railway environment variables provide the database URL, username, and password to the application service.
-Environment variables required by the application
-Variable	Purpose
-CAMPUS_DB_URL	JDBC URL of the MySQL database
-CAMPUS_DB_USER	Database username
-CAMPUS_DB_PASSWORD	Database password
-Keep all secrets in Railway’s private variable configuration. Never paste passwords, private keys, or complete secret values into this README or into source control.
+Import the repository into Eclipse as an **Existing Maven Project**, select JDK 21, configure Tomcat 9 and the database environment variables, then run the project on the server. Alternatively, deploy the generated WAR to Tomcat. For more setup and troubleshooting details, see [`docs/Project_Run_Guide.md`](docs/Project_Run_Guide.md).
 
-Project Structure
+## ☁️ Deployment
+
+The public demo is hosted on **Railway** using a Dockerfile-based deployment.
+
+- `Dockerfile` defines the Maven build stage and Tomcat runtime stage.
+- `docker-entrypoint.sh` configures Tomcat's HTTP connector from the hosting platform's port value and starts Tomcat.
+- `.dockerignore` excludes items such as Git metadata, local logs, build output, and local environment files from the Docker build context.
+- Railway service variables provide `CAMPUS_DB_URL`, `CAMPUS_DB_USER`, and `CAMPUS_DB_PASSWORD` to the application.
+
+**Live URL:** [Campus Connect Login](https://campus-connect-production-8935.up.railway.app/campus-connect/login.jsp)
+
+Never publish database passwords, SSH private keys, or other secrets in this README or source control.
+
+## 📁 Project Structure
+
+```text
 campus-connect/
 ├── database/
 │   └── campus_connect_schema.sql
@@ -251,83 +283,91 @@ campus-connect/
 │   ├── Use_Case_Diagram.png
 │   ├── Class_Diagram.png
 │   └── ER_Diagram.png
-├── src/
-│   └── main/
-│       ├── java/com/campusconnect/
-│       │   ├── controller/
-│       │   ├── dao/
-│       │   ├── model/
-│       │   └── util/
-│       └── webapp/
-│           ├── admin/
-│           ├── recruiter/
-│           ├── student/
-│           ├── css/
-│           ├── js/
-│           └── login.jsp
+├── src/main/java/com/campusconnect/
+│   ├── controller/
+│   ├── dao/
+│   ├── model/
+│   └── util/
+├── src/main/webapp/
+│   ├── admin/
+│   ├── recruiter/
+│   ├── student/
+│   ├── css/
+│   ├── js/
+│   └── login.jsp
 ├── .dockerignore
 ├── Dockerfile
 ├── docker-entrypoint.sh
 ├── pom.xml
 └── README.md
-Project Milestones
-The project was organized into these development stages:
+```
 
-Planning and requirements: define the placement-management problem, user roles, and requirements.
-System design: prepare the MVC design, use-case/class/ER diagrams, and UI planning.
-Database design: define tables, primary keys, foreign keys, and application relationships.
-Implementation: develop authentication, student, recruiter, application, interview, and administrator functionality.
-Integration and testing: connect modules with MySQL and verify the primary end-to-end placement workflow.
-Version control and deployment: maintain source code on GitHub and deploy the Dockerized application to Railway.
-Documentation and demonstration: prepare the report, run guide, test evidence, and live demo.
-Actual daily work logs, signatures, review approvals, and milestone evidence should be maintained according to the college’s required format.
+## ✅ Testing Evidence
 
-Testing
-The following workflows have been manually exercised in the live demonstration:
+The following core flows were manually exercised on the live demonstration:
 
-Administrator login and dashboard access
-Student login and dashboard access
-Loading placement and internship listings
-Submitting a student job application
-Viewing the submitted application from the recruiter area
-Shortlisting an application
-Scheduling an interview from the recruiter area
-Verifying the interview in the student area
-This is manual functional verification, not a claim of automated test-suite coverage or a formal security audit.
+- Administrator login and dashboard access.
+- Student login and dashboard access.
+- Loading placement and internship listings.
+- Submitting a student job application.
+- Viewing the submitted application from the recruiter area.
+- Shortlisting an application.
+- Scheduling an interview from the recruiter area.
+- Verifying the scheduled interview in the student area.
 
-Documentation
-Final Project Report (PDF)
-Software Requirements Specification
-Project Run Guide
-Testing Documentation
-Weekly Progress Tracking
-Use Case Diagram
-Class Diagram
-Entity Relationship Diagram
-Database Schema
-Team Contributions
-Team member	Primary responsibility
-Vinod Yadav — Team Leader	Authentication, integration, deployment coordination, and GitHub workflow
-Ritika Yadav	Student module
-Shalini Priya	Applications and interviews
-Rakshit Sharma	Recruiter, company, and jobs modules
-Akshara Prashar	Administrator module and reports
-Team members should be credited according to the actual work completed and the contribution evidence maintained by the team.
+This describes manual functional checks; it is not a claim of automated test-suite coverage or a formal security audit.
 
-Limitations and Future Enhancements
-Potential areas for future work include:
+## 📚 Documentation
 
-Email and real-time notifications
-Advanced job search and filtering
-Resume document management
-Automated eligibility checks
-Online aptitude assessments
-PDF/Excel report export and richer placement analytics
-Expanded deployment monitoring, automated backups, and production hardening
-Acknowledgements
-Developed as an academic project for the 2026–27 session under the guidance of Er. Ram Babu Buri. Thanks to the Department, the guide, and all team members for their input and collaboration.
+- [Final Project Report (PDF)](docs/Campus_Connect_Final_Report.pdf)
+- [Software Requirements Specification](docs/Campus_Connect_SRS.md)
+- [Project Run Guide](docs/Project_Run_Guide.md)
+- [Testing Documentation](docs/Testing_Documentation.md)
+- [Weekly Progress Tracking](docs/Weekly_Progress_Tracking.md)
+- [Use Case Diagram](docs/Use_Case_Diagram.png)
+- [Class Diagram](docs/Class_Diagram.png)
+- [ER Diagram](docs/ER_Diagram.png)
+- [Database Schema](database/campus_connect_schema.sql)
 
-<p align="center"> <strong>Campus Connect</strong><br> Making college placement workflows more organized, accessible, and easier to track. </p>
+## 👥 Team Contributions
 
+| Team member | Primary responsibility |
+|---|---|
+| **Vinod Yadav — Team Leader** | Authentication, integration, deployment coordination, and GitHub workflow |
+| Ritika Yadav | Student module |
+| Shalini Priya | Applications and interviews |
+| Rakshit Sharma | Recruiter, company, and jobs modules |
+| Akshara Prashar | Administrator module and reports |
 
-⋮⋮⋮⋮⋮⋮⋮⋮
+Team members should be credited in line with the actual work completed and the evidence maintained by the team.
+
+## 🔭 Limitations and Future Enhancements
+
+Potential future improvements include:
+
+- Email and real-time notifications.
+- Advanced job search and filtering.
+- Resume document management.
+- Automated eligibility checks.
+- Online aptitude assessments.
+- PDF/Excel report export and richer placement analytics.
+- Expanded monitoring, automated backups, and production hardening.
+
+## 🎓 Academic Details
+
+- **Project:** Campus Connect — College Placement & Internship Management System
+- **Academic year:** 2026–27
+- **Project type:** Java web application
+- **Team leader:** Vinod Yadav
+- **Guide:** Er. Ram Babu Buri
+
+---
+
+<div align="center">
+
+**Campus Connect**  
+*Making college placement workflows more organized, accessible, and easier to track.*
+
+[🌐 Live Demo](https://campus-connect-production-8935.up.railway.app/campus-connect/login.jsp) · [💻 GitHub Repository](https://github.com/vinodyadav895880-dotcom/campus-connect)
+
+</div>
