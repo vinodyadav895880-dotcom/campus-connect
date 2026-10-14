@@ -3,6 +3,17 @@
 Campus Connect is a web-based College Placement and Internship Management System developed to simplify and manage placement and internship activities within a college.
 
 The system provides separate role-based modules for Students, Recruiters, and Administrators. Students can manage their profiles, explore job opportunities, apply for jobs, and track applications and interviews. Recruiters can post job opportunities, view applications, shortlist/reject/select candidates, and schedule interviews. Administrators can monitor and manage the overall system through a centralized dashboard and reports.
+## Live Demo
+
+**Application URL:** https://campus-connect-production-8935.up.railway.app/campus-connect/login.jsp
+
+**Deployment Platform:** Railway
+
+**Project Type:** College Placement & Internship Management System
+
+**Technology Stack:** Java 21, JSP, Servlets, JDBC, MySQL, Bootstrap 5, Apache Tomcat 9, Maven
+
+The deployed application supports role-based workflows for students, recruiters and administrators. Demo data is used for testing job applications, application shortlisting and interview scheduling.
 
 ## Features
 
