@@ -28,7 +28,7 @@ Team Leader: **Vinod Yadav** · Guide: **Er. Ram Babu Buri**
 
 ---
 
-## 📌 Table of Contents
+##  Table of Contents
 
 - [Overview](#-overview)
 - [Problem and Solution](#-problem-and-solution)
